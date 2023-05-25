@@ -34,7 +34,7 @@ public class SavingAccountTest {
     }
 
     @Test
-    public void shouldTestTruOrFalse() {
+    public void shouldTestTruOrFalseFalse() {
         SavingAccount account = new SavingAccount(
                 1_000,
                 1_000,
@@ -46,6 +46,17 @@ public class SavingAccountTest {
 
         Assertions.assertFalse(actual);
     }
+    @Test
+    public void shouldTestTruOrFalseTrue() {
+        SavingAccount account = new SavingAccount(
+                4_000,
+                1_000,
+                10_000,
+                5
+        );
 
+        boolean actual = account.pay(3000);
 
+        Assertions.assertTrue(actual);
+    }
 }
