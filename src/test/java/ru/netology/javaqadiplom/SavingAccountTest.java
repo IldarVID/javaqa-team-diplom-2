@@ -230,13 +230,51 @@ public class SavingAccountTest {
 
 
     @Test
-    public void shouldShowExceptionsWrong() {
+    public void showExceptionIfWrongInitialBalance() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
                     new SavingAccount(1000,2000,10000,15);
                 });
     }
+
+    @Test
+    public void showExceptionIfWrongMinBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new SavingAccount(1000,-2000,10000,15);
+                });
+    }
+
+    @Test
+    public void showExceptionIfWrongMaxBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new SavingAccount(1000,2000,-10_000,15);
+                });
+    }
+
+    @Test
+    public void showExceptionIfWrongRate() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new SavingAccount(1000,2000,10_000,-15);
+                });
+    }
+
+    @Test
+    public void showExceptionIfMinBalanceMoreMaxBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new SavingAccount(1000,11_000,10_000,15);
+                });
+    }
+
+
 
 
 }
