@@ -230,8 +230,7 @@ public class SavingAccountTest {
 
 
     @Test
-    public void shouldShowExceptions() {
-        SavingAccount account = new SavingAccount(1000,2000,10000,15);
+    public void shouldShowExceptionsWrong() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
                 () -> {
