@@ -23,7 +23,21 @@ public class CreditAccount extends Account {
             throw new IllegalArgumentException(
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
+
         }
+        if (initialBalance <= 0) {
+            throw new IllegalArgumentException(
+                    "Начальный баланс не может быть отрицательный, а у вас: " + initialBalance
+            );
+
+        }
+        if (creditLimit <= 0) {
+            throw new IllegalArgumentException(
+                    "Кредитный лимит не может быть отрицательный, а у вас: " + initialBalance
+            );
+
+        }
+
         this.balance = initialBalance;
         this.creditLimit = creditLimit;
         this.rate = rate;
@@ -40,16 +54,16 @@ public class CreditAccount extends Account {
      * @return true если операция прошла успешно, false иначе.
      */
     @Override
-    public boolean pay(int amount) { /// метод с багом , не срабатывает условие когда платеж больше лимита
+    public boolean pay(int amount) {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > -creditLimit) {
-            balance = -amount;
-            return true;
-        } else {
+        if (balance - amount < -creditLimit) {
             return false;
+
+        } else {
+            balance = balance - amount;
+            return true;
         }
     }
 
@@ -70,7 +84,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = amount; /// мой вариант исправления:  balance = amount + balance;
+        balance = amount + balance;
         return true;
     }
 
