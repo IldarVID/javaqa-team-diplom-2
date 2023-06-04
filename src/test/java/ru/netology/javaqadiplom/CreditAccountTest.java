@@ -17,6 +17,7 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(4000, account.getBalance());
     }
+
     @Test
     public void shouldAddToPositiveBalanceIfAmountZero() {
         CreditAccount account = new CreditAccount(
@@ -31,46 +32,48 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldThrowExceptionIfRateLessZero() {
+    public void shouldAddToPositiveBalanceIfAmountWrong() {
         CreditAccount account = new CreditAccount(
-                1_000,
-                5_000,
-                -15
-        );
-
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> account.getRate ()
-        );
-    }
-    @Test
-    public void shouldThrowExceptionIfCreditLimitLessZero() {  ///// под этот тест надо довести метод с Exception до ума
-        CreditAccount account = new CreditAccount(
-                1_000,
-                -5_000,
-                15
-        );
-
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> account.getCreditLimit ()
-        );
-    }
-    @Test
-    public void shouldThrowExceptionIfBalanceLessZero() { ///// под этот тест надо довести метод с Exception до ума
-        CreditAccount account = new CreditAccount(
-                -1_000,
+                1500,
                 5_000,
                 15
         );
 
+        account.add(-1000);
+
+        Assertions.assertEquals(1_500, account.getBalance());
+    }
+
+
+    @Test
+    public void showExceptionIfWrongRate() {
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> account.getBalance ()
-        );
+                () -> {
+                    new CreditAccount(1000, 2000, -15);
+                });
     }
+
     @Test
-    public void ifPayLessLimit() {
+    public void showExceptionIfWrongInitialBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new CreditAccount(-1000, 2000, 15);
+                });
+    }
+
+    @Test
+    public void showExceptionIfWrongCreditLimit() {
+
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> {
+                    new CreditAccount(1000, -2000, 15);
+                });
+    }
+
+    @Test
+    public void ifPayNotMoreLimit() {
         CreditAccount account = new CreditAccount(
                 0,
                 5_000,
@@ -81,6 +84,7 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-3_000, account.getBalance());
     }
+
     @Test
     public void ifPayEqualLimit() {
         CreditAccount account = new CreditAccount(
@@ -93,8 +97,9 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(-5_000, account.getBalance());
     }
+
     @Test
-    public void ifPayMorelLimit() {                        ///// этот тест не срабатывает потому что в методе надо доделать нормально условие чт опроиходит когда платеж больше лимита
+    public void ifPayMorelLimit() {
         CreditAccount account = new CreditAccount(
                 0,
                 5_000,
@@ -107,41 +112,43 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void rateIfBalanceNegative() {                        // надо доделать метод и все тесты по этому методу подкорректировать
+    public void rateIfBalanceNegative() {
         CreditAccount account = new CreditAccount(
-                -200,
+                400,
                 5_000,
                 15
         );
 
-       account.yearChange();
+        account.pay(600);
 
-        Assertions.assertEquals(-30, account.getBalance());
+        Assertions.assertEquals(-30, account.yearChange());
+
     }
 
     @Test
-    public void rateIfBalanceZero() {                        // надо доделать метод и все тесты по этому методу подкорректировать
-        CreditAccount account = new CreditAccount(
-                0,
-                5_000,
-                15
-        );
-
-        account.yearChange();
-
-        Assertions.assertEquals(0, account.getBalance());
-    }
-    @Test
-    public void rateIfBalancePositive() {                        // надо доделать метод и все тесты по этому методу подкорректировать
+    public void rateIfBalanceZero() {
         CreditAccount account = new CreditAccount(
                 200,
                 5_000,
                 15
         );
 
-        account.yearChange();
+        account.pay(200);
 
-        Assertions.assertEquals(0, account.getBalance());
+        Assertions.assertEquals(0, account.yearChange());
+    }
+
+    @Test
+    public void rateIfBalancePositive() {
+        CreditAccount account = new CreditAccount(
+                1000,
+                5_000,
+                15
+        );
+
+        account.pay(200);
+
+        Assertions.assertEquals(0, account.yearChange());
     }
 
 

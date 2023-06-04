@@ -19,19 +19,19 @@ public class CreditAccount extends Account {
      * @param rate           - неотрицательное число, ставка кредитования для расчёта долга за отрицательный баланс
      */
     public CreditAccount(int initialBalance, int creditLimit, int rate) {
-        if (rate <= 0) {
+        if (rate < 0) {
             throw new IllegalArgumentException(
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
 
         }
-        if (initialBalance <= 0) {
+        if (initialBalance < 0) {
             throw new IllegalArgumentException(
                     "Начальный баланс не может быть отрицательный, а у вас: " + initialBalance
             );
 
         }
-        if (creditLimit <= 0) {
+        if (creditLimit < 0) {
             throw new IllegalArgumentException(
                     "Кредитный лимит не может быть отрицательный, а у вас: " + initialBalance
             );
@@ -41,6 +41,7 @@ public class CreditAccount extends Account {
         this.balance = initialBalance;
         this.creditLimit = creditLimit;
         this.rate = rate;
+
     }
 
     /**
@@ -101,11 +102,12 @@ public class CreditAccount extends Account {
     public int yearChange() {
 
         if (balance < 0) {
-            rate = balance / 100 * rate;
+             rate = balance * rate / 100;
+            return rate;
+
         } else {
-            rate = 0;
+            return 0;
         }
-        return rate;
     }
 
     public int getCreditLimit() {
